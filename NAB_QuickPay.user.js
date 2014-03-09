@@ -1,11 +1,14 @@
 // ==UserScript==
 // @name       NAB QuickPay
 // @namespace  https://nabquickpay.stevenroddis.com
-// @version    0.2
+// @version    0.3
 // @description  A work in progress! Creates a new way to pay, just copy and paste payment information into the textarea and it'll auto fill account/bpay info and amount.
 // @match      https://ib.nab.com.au/*
 // @author     Steven Roddis
 // ==/UserScript==
+
+//Config (Move this to GM_Value)
+var REMITTER_NAME = "Steven Roddis";
 
 //Hacky Constants
 var UNKNOWN_TYPE = -1;
@@ -16,7 +19,7 @@ var BPAY_TYPE = 1;
 function parsePaymentString(str) {
     str_stripped = str.toLowerCase().replace(/[ -]/g, "");
     
-    //Direct Deposit    
+	//Direct Deposit    
     var bsbRegex = /(?:^|[^$])([0-9]{6})(?:[^0-9]|$)/;
     var accountRegex = /(?:^|[^$])([0-9]{8,9})(?:[^0-9]|$)/; //I've seen plenty of 8 digit account numbers.
     var nameRegex = /\bname\:\s*(.+)/i;
@@ -74,19 +77,19 @@ function parsePaymentString(str) {
     switch(paymentType)
     {
         case DEPOSIT_TYPE:
-            return [paymentType, amount, bsb, account, name];
+        	return [paymentType, amount, bsb, account, name, REMITTER_NAME];
         break;
                         
         case BPAY_TYPE:
-            return [paymentType, amount, billerCode, referenceNum];
+        	return [paymentType, amount, billerCode, referenceNum];
         break;
         
         default:
-        case UNKNOWN_TYPE:
-            if(amount)
-                return [UNKNOWN_TYPE, amount];
-            else
-                return [UNKNOWN_TYPE];
+    	case UNKNOWN_TYPE:
+        	if(amount)
+            	return [UNKNOWN_TYPE, amount];
+        	else
+        		return [UNKNOWN_TYPE];
         break;
     }           
 }
@@ -120,37 +123,48 @@ function fillForms(p) {
         $("#payeeAcctId").val(p[3]);
         $("#amount").val(p[1]);
         $("#payeeAcctName").val(p[4]);
+        $("#remitterName").val(p[5]);
     }
 }
 
 //input
 var ele = '<textarea id="stevenroddis-quickpay"></textarea>';
-var isBPAY = false;
+var isBPAY		= false;
+var isTransfer	= false;
 
 if(location.pathname.indexOf("billPayment") > -1)
     isBPAY = true;
 else
     isBPAY = false;
 
+if(location.pathname.indexOf("payments_transferNew") > -1)
+    isTransfer = true;
+else
+    isTransfer = false;
+
 if(location.hash.substring(0,6) == "#SRQP!") //have we passed details from last page?
 {
     p = location.hash.substring(6).split(',');
-    for(var i = 0; i < p.length; i++)
+	for(var i = 0; i < p.length; i++)
         p[i] = decodeURIComponent(p[i]); //unescape
     fillForms(p);
 }
-else if(isBPAY) //add form
-    $("form[name=editBillPaymentForm] table.tdSectionTable + table td").first().html(ele);
-else
-    $("#payeeAcctId + p").html(ele);
+else if(isBPAY || isTransfer)
+{
+    $("table.tlIB tr td:nth-child(3) table.mainContent").first().before('<a name="content" class="pageTitle" id="stevenroddis-title">SR QuickPay</a>');
+    $("#stevenroddis-title").after(ele);
+    //Style
+    $("#stevenroddis-title").css("padding", "16px 1 1 3px");
+    $("#stevenroddis-quickpay").css("width", "308px");
+    $("#stevenroddis-quickpay").css("height", "98px");
+    $("#stevenroddis-quickpay").css("clear", "both");
+    $("#stevenroddis-quickpay").css("margin", "25px 0 0 20px");
+    $("#stevenroddis-quickpay").css("padding", "0 0 5px 0");
+    $("#stevenroddis-title").css("display", "block");
+}
 
 //Bind on change
 $("#stevenroddis-quickpay").bind('input propertychange', function() {
     p = parsePaymentString(this.value);
     fillForms(p); //fill in values
 });
-
-//Style
-$("#stevenroddis-quickpay").css("width", "308px");
-$("#stevenroddis-quickpay").css("height", "98px");
-$("#stevenroddis-quickpay").css("clear", "both");
