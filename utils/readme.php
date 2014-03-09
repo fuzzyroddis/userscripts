@@ -40,7 +40,7 @@ foreach($scripts as $script)
 		$file = file_get_contents('../'.$script);
 		$details = getDetails($file);
 
-		$readme .= "\n[".$details['name'].'](https://github.com/StevenRoddis/userscripts/blob/master/'.$script.")\n------------"; //name & subheading
+		$readme .= "\n[".$details['name'].'](https://github.com/StevenRoddis/userscripts/blob/master/'.rawurlencode($script).")\n------------"; //name & subheading
 		if($details['author'])
 			$readme .= "\nAuthor: ".$details['author'];
 		if($details['description'])
