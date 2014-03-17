@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       NAB QuickPay
 // @namespace  https://nabquickpay.stevenroddis.com
-// @version    0.3
+// @version    0.3.1
 // @description  A work in progress! Creates a new way to pay, just copy and paste payment information into the textarea and it'll auto fill account/bpay info and amount.
 // @match      https://ib.nab.com.au/*
 // @author     Steven Roddis
@@ -19,15 +19,15 @@ var BPAY_TYPE = 1;
 function parsePaymentString(str) {
     str_stripped = str.toLowerCase().replace(/[ -]/g, "");
     
-	//Direct Deposit    
+    //Direct Deposit    
     var bsbRegex = /(?:^|[^$])([0-9]{6})(?:[^0-9]|$)/;
     var accountRegex = /(?:^|[^$])([0-9]{8,9})(?:[^0-9]|$)/; //I've seen plenty of 8 digit account numbers.
     var nameRegex = /\bname\:\s*(.+)/i;
     
     //BPAY
-    var billerCodeRegex = /(?:bpay|biller|code).+?[^$]([0-9]{4,6})/i;
-    var referenceNumRegex = /(?:reference|number).+?[^$]([0-9]{1,16})/i;
-    var referenceNumBasicRegex = /[^$]([0-9]{1,16})/i; //I don't think there is a limit, using 16 (cc length) for sanity
+    var billerCodeRegex = /(?:bpay|biller|code)[^0-9$]+?([0-9]{4,6})/i;
+    var referenceNumRegex = /(?:reference|number)[^0-9$]+?([0-9]{1,16})/i;
+    //var referenceNumBasicRegex = /[^$]([0-9]{1,16})/i; //I don't think there is a limit, using 16 (cc length) for sanity
     
     /*http://bpaybiller.nab.com.au/files/NAB_BPAY_Biller_checklist.pdf
     Amount must be between 1.00 and 999,999.99
@@ -77,19 +77,19 @@ function parsePaymentString(str) {
     switch(paymentType)
     {
         case DEPOSIT_TYPE:
-        	return [paymentType, amount, bsb, account, name, REMITTER_NAME];
+            return [paymentType, amount, bsb, account, name, REMITTER_NAME];
         break;
                         
         case BPAY_TYPE:
-        	return [paymentType, amount, billerCode, referenceNum];
+            return [paymentType, amount, billerCode, referenceNum];
         break;
         
         default:
-    	case UNKNOWN_TYPE:
-        	if(amount)
-            	return [UNKNOWN_TYPE, amount];
-        	else
-        		return [UNKNOWN_TYPE];
+        case UNKNOWN_TYPE:
+            if(amount)
+                return [UNKNOWN_TYPE, amount];
+            else
+                return [UNKNOWN_TYPE];
         break;
     }           
 }
@@ -129,8 +129,8 @@ function fillForms(p) {
 
 //input
 var ele = '<textarea id="stevenroddis-quickpay"></textarea>';
-var isBPAY		= false;
-var isTransfer	= false;
+var isBPAY      = false;
+var isTransfer  = false;
 
 if(location.pathname.indexOf("billPayment") > -1)
     isBPAY = true;
@@ -145,7 +145,7 @@ else
 if(location.hash.substring(0,6) == "#SRQP!") //have we passed details from last page?
 {
     p = location.hash.substring(6).split(',');
-	for(var i = 0; i < p.length; i++)
+    for(var i = 0; i < p.length; i++)
         p[i] = decodeURIComponent(p[i]); //unescape
     fillForms(p);
 }
