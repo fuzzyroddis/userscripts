@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       NAB QuickPay
 // @namespace  https://nabquickpay.stevenroddis.com
-// @version    0.3.2
+// @version    0.3.3
 // @description  A work in progress! Creates a new way to pay, just copy and paste payment information into the textarea and it'll auto fill account/bpay info and amount.
 // @match      https://ib.nab.com.au/*
 // @author     Steven Roddis
@@ -66,7 +66,7 @@ function parsePaymentString(str) {
         paymentType = BPAY_TYPE;
         
         //Reference Number
-        var referenceNum = referenceNumRegex.exec(str_stripped.replace(billerCode[0], "")); //remove billerCode
+        var referenceNum = referenceNumRegex.exec(str_stripped.replace(billerCode[0], "")); //remove billerCode (billerCode[0] is the entire match not just the code (which is good))
         if (referenceNum != null) {
             referenceNum = referenceNum[1];
         }
@@ -108,7 +108,10 @@ function fillForms(p) {
             for(var i = 0; i < data.length; i++)
                 data[i] = encodeURIComponent(data[i]); //make it ready for implosion
             data = data.join(',');
-            $("form[name=editBillPaymentForm]").attr("action", $("form[name=editBillPaymentForm]").attr("action") + "#SRQP!"+data);
+            
+            action = $("form[name=editBillPaymentForm]").attr("action");
+            action = action.replace(/#SRQP!.+$/, ''); //remove old data
+            $("form[name=editBillPaymentForm]").attr("action", action + "#SRQP!"+data); //add new data
         }
         //second step
         else
