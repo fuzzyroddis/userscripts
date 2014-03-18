@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       NAB QuickPay
 // @namespace  https://nabquickpay.stevenroddis.com
-// @version    0.3.3
+// @version    0.3.4
 // @description  A work in progress! Creates a new way to pay, just copy and paste payment information into the textarea and it'll auto fill account/bpay info and amount.
 // @match      https://ib.nab.com.au/*
 // @author     Steven Roddis
@@ -104,10 +104,19 @@ function fillForms(p) {
             $("input[name=billerCode]").val(p[2]);
             //Magic Below
             //I also had the idea of passing via target or window name
-            data = p;
-            for(var i = 0; i < data.length; i++)
-                data[i] = encodeURIComponent(data[i]); //make it ready for implosion
-            data = data.join(',');
+            data = "";
+            for(var i = 0; i < p.length; i++)
+            {
+                if(i > 0)
+                {
+                    data += ",";
+                }
+                
+                if(p[i] || p[i] === 0) //contains something? (trying to avoid nulls)
+                {
+                    data += encodeURIComponent(p[i]);
+                }
+            }
             
             action = $("form[name=editBillPaymentForm]").attr("action");
             action = action.replace(/#SRQP!.+$/, ''); //remove old data
