@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       NAB QuickPay
 // @namespace  https://nabquickpay.stevenroddis.com
-// @version    0.3.1
+// @version    0.3.2
 // @description  A work in progress! Creates a new way to pay, just copy and paste payment information into the textarea and it'll auto fill account/bpay info and amount.
 // @match      https://ib.nab.com.au/*
 // @author     Steven Roddis
@@ -132,12 +132,12 @@ var ele = '<textarea id="stevenroddis-quickpay"></textarea>';
 var isBPAY      = false;
 var isTransfer  = false;
 
-if(location.pathname.indexOf("billPayment") > -1)
+if(location.pathname.indexOf("/billPayment_selectBiller.ctl") > -1)
     isBPAY = true;
 else
     isBPAY = false;
 
-if(location.pathname.indexOf("payments_transferNew") > -1)
+if(location.pathname.indexOf("/payments_transferNew.ctl") > -1)
     isTransfer = true;
 else
     isTransfer = false;
