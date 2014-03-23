@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       NAB QuickPay
 // @namespace  https://nabquickpay.stevenroddis.com
-// @version    0.3.5
+// @version    0.4.0
 // @description  A work in progress! Creates a new way to pay, just copy and paste payment information into the textarea and it'll auto fill account/bpay info and amount.
 // @match      https://ib.nab.com.au/*
 // @author     Steven Roddis
@@ -9,6 +9,7 @@
 
 //Config (Move this to GM_Value)
 var REMITTER_NAME = "Steven Roddis";
+var ALWAYS_AUTOFULL_REMITTER = true; //autofill the form even if we didn't use QuickPay
 
 //Hacky Constants
 var UNKNOWN_TYPE = -1;
@@ -180,3 +181,8 @@ $("#stevenroddis-quickpay").bind('input propertychange', function() {
     p = parsePaymentString(this.value);
     fillForms(p); //fill in values
 });
+
+if(ALWAYS_AUTOFULL_REMITTER)
+{
+    $("#remitterName").val(REMITTER_NAME);
+}
