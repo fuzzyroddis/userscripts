@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       NAB QuickPay
 // @namespace  https://nabquickpay.stevenroddis.com
-// @version    0.4.0
+// @version    0.4.1
 // @description  A work in progress! Creates a new way to pay, just copy and paste payment information into the textarea and it'll auto fill account/bpay info and amount.
 // @match      https://ib.nab.com.au/*
 // @author     Steven Roddis
@@ -27,7 +27,7 @@ function parsePaymentString(str) {
     
     //BPAY
     var billerCodeRegex = /(?:bpay|biller|code)[^0-9$]+?([0-9]{4,6})/i;
-    var referenceNumRegex = /(?:reference|number)[^0-9$]+?([0-9]{1,16})/i;
+    var referenceNumRegex = /(?:ref(?:erence)?|number)[^0-9\$]+?([0-9]{1,16})/i;
     //var referenceNumBasicRegex = /[^$]([0-9]{1,16})/i; //I don't think there is a limit, using 16 (cc length) for sanity
     
     /*http://bpaybiller.nab.com.au/files/NAB_BPAY_Biller_checklist.pdf
@@ -144,14 +144,26 @@ function fillForms(p) {
 var ele = '<textarea id="stevenroddis-quickpay"></textarea>';
 var isBPAY		= false;
 var isTransfer	= false;
+var displayForm = false;
 
 if(location.pathname.indexOf("/billPayment_selectBiller.ctl") > -1)
+{
     isBPAY = true;
+	displayForm = true;
+}
+else if(location.pathname.indexOf("/billPayment_search.ctl") > -1)
+{
+    isBPAY = true;
+    displayForm = false;
+}
 else
     isBPAY = false;
 
 if(location.pathname.indexOf("/payments_transferNew.ctl") > -1 && $("#payeeBsb").length)
+{
     isTransfer = true;
+	displayForm = true;
+}
 else
     isTransfer = false;
 
@@ -162,7 +174,7 @@ if(location.hash.substring(0,6) == "#SRQP!") //have we passed details from last 
         p[i] = decodeURIComponent(p[i]); //unescape
     fillForms(p);
 }
-else if(isBPAY || isTransfer)
+else if(displayForm)
 {
     $("table.tlIB tr td:nth-child(3) table.mainContent").first().before('<a name="content" class="pageTitle" id="stevenroddis-title">SR QuickPay</a>');
     $("#stevenroddis-title").after(ele);
