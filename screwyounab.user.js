@@ -2,7 +2,8 @@
 // @name       Screw You NAB: I Don't Want a New Window Edition
 // @author     Steven Roddis
 // @namespace  stevenroddis.com
-// @version    0.1
+// @version    0.1.1
+// @description Fools NAB's internet banking into thinking we loaded their site in a new window.
 // @match      https://www.nab.com.au/*
 // @match      https://ib.nab.com.au/*
 // ==/UserScript==

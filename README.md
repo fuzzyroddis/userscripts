@@ -7,8 +7,15 @@ Author: Steven Roddis
 Description: A work in progress! Creates a new way to pay, just copy and paste payment information into the textarea and it'll auto fill account/bpay info and amount.
 
 ------------
+[Me Bank PIN Auto-Typer](https://github.com/StevenRoddis/userscripts/blob/master/me-bank-pin-auto-typer.user.js)
+------------
+Author: Steven Roddis
+Description: When a password manager autofills the password field this script types it out on the stupid PIN pad.
+
+------------
 [Screw You NAB: I Don't Want a New Window Edition](https://github.com/StevenRoddis/userscripts/blob/master/screwyounab.user.js)
 ------------
 Author: Steven Roddis
+Description: Fools NAB's internet banking into thinking we loaded their site in a new window.
 
 ------------

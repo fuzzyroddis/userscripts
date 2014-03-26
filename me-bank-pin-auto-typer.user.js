@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name       Me Bank PIN Auto-Typer
+// @author     Steven Roddis
 // @namespace  com.stevenroddis.com.mebank.pinautotyper
-// @version    0.2
+// @version    0.2.1
 // @description  When a password manager autofills the password field this script types it out on the stupid PIN pad.
 // @match      https://ib.mebank.com.au/*
 // ==/UserScript==
