@@ -7,6 +7,11 @@ Author: Steven Roddis
 Description: A work in progress! Creates a new way to pay, just copy and paste payment information into the textarea and it'll auto fill account/bpay info and amount.
 
 ------------
+[ING Direct No Popup](https://github.com/StevenRoddis/userscripts/blob/master/ing-direct-no-popup.user.js)
+------------
+Description: Makes internet banking open in the same tab, not a silly popup.
+
+------------
 [Me Bank PIN Auto-Typer](https://github.com/StevenRoddis/userscripts/blob/master/me-bank-pin-auto-typer.user.js)
 ------------
 Author: Steven Roddis
