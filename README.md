@@ -11,6 +11,11 @@ A work in progress! Creates a new way to pay, just copy and paste payment inform
 Makes internet banking open in the same tab, not a silly popup.
 
 ------------
+[ING Textual Pin Entry (No more virtual keyboard)](https://github.com/StevenRoddis/userscripts/blob/master/ing-direct-pin-entry.user.js)
+------------
+ING Direct isn't friendly to password managers or screen readers. This script fixes that.
+
+------------
 [Me Bank PIN Auto-Typer](https://github.com/StevenRoddis/userscripts/blob/master/me-bank-pin-auto-typer.user.js)
 ------------
 When a password manager autofills the password field this script types it out on the stupid PIN pad.
