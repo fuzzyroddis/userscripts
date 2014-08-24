@@ -21,6 +21,9 @@ function getDetails($str)
 	preg_match('#// @author\s+(.+)#', $matches, $temp);
 	$details['author'] = $temp[1];
 
+	preg_match('#// @screenshot\s+(.+)#', $matches, $temp);
+	@$details['screenshot'] = $temp[1];
+
 	return $details;
 
 }
@@ -41,10 +44,12 @@ foreach($scripts as $script)
 		$details = getDetails($file);
 
 		$readme .= "\n[".$details['name'].'](https://github.com/StevenRoddis/userscripts/blob/master/'.rawurlencode($script).")\n------------"; //name & subheading
-		if($details['author'])
-			$readme .= "\nAuthor: ".$details['author'];
+		/*if($details['author'])
+			$readme .= "\nAuthor: ".$details['author'];*/
 		if($details['description'])
-			$readme .= "\nDescription: ".$details['description'];
+			$readme .= "\n".$details['description'];
+		if($details['screenshot'])
+			$readme .= "\n\n![Screenshot](".$details['screenshot'].")";
 		$readme .= "\n\n------------";
 	}	
 }

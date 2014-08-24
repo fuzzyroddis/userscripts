@@ -5,6 +5,7 @@
 // @description  ING Direct isn't friendly to password managers or screen readers. This script fixes that.
 // @match      https://www.ingdirect.com.au/client/Login.aspx
 // @author     Steven Roddis
+// @screenshot https://cloud.githubusercontent.com/assets/2271265/4023343/1dd33c70-2b88-11e4-8dde-174e33496d28.png
 // ==/UserScript==
 
 /* Lookup table for the button images, the numbers are not text but an image */

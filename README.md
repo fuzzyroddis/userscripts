@@ -15,6 +15,8 @@ Makes internet banking open in the same tab, not a silly popup.
 ------------
 ING Direct isn't friendly to password managers or screen readers. This script fixes that.
 
+![Screenshot](https://cloud.githubusercontent.com/assets/2271265/4023343/1dd33c70-2b88-11e4-8dde-174e33496d28.png)
+
 ------------
 [Me Bank PIN Auto-Typer](https://github.com/StevenRoddis/userscripts/blob/master/me-bank-pin-auto-typer.user.js)
 ------------
